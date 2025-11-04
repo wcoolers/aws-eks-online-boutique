@@ -1,0 +1,114 @@
+# GLOBAL IMAGE CONFIG
+images:
+  repository: "862567259931.dkr.ecr.us-east-1.amazonaws.com/online-boutique"
+  tag: "latest"
+
+# CORE SETTINGS
+serviceAccounts:
+  create: true
+  annotationsOnlyForCartservice: false
+  annotations: {}
+
+networkPolicies:
+  create: false
+
+sidecars:
+  create: false
+
+authorizationPolicies:
+  create: false
+
+googleCloudOperations:
+  profiler: false
+
+securityContext:
+  enable: false
+
+seccompProfile:
+  enable: false
+  type: RuntimeDefault
+
+# =========================
+# SERVICES
+# =========================
+
+adService:
+  create: true
+  name: adservice
+  resources: {}
+
+cartService:
+  create: true
+  name: cartservice
+  resources: {}
+  externalRedis:
+    enable: false
+
+cartDatabase:
+  externalRedisTlsOrigination:
+    enable: false
+  inClusterRedis:
+    create: true
+
+checkoutService:
+  create: true
+  name: checkoutservice
+  resources: {}
+
+currencyService:
+  create: true
+  name: currencyservice
+  resources: {}
+
+emailService:
+  create: true
+  name: emailservice
+  resources: {}
+
+frontend:
+  create: true
+  name: frontend
+  resources: {}
+  virtualService:
+    create: false
+
+loadGenerator:
+  create: true
+  name: loadgenerator
+  resources: {}
+
+paymentService:
+  create: true
+  name: paymentservice
+  resources: {}
+
+productCatalogService:
+  create: true
+  name: productcatalogservice
+  resources: {}
+
+recommendationService:
+  create: true
+  name: recommendationservice
+  resources: {}
+
+shippingService:
+  create: true
+  name: shippingservice
+  resources: {}
+
+redisCart:
+  create: true
+  name: redis-cart
+  resources: {}
+
+shoppingAssistantService:
+  create: true
+  name: shoppingassistantservice
+  resources: {}
+
+opentelemetryCollector:
+  create: false
+  name: opentelemetry-collector
+  resources: {}
+
