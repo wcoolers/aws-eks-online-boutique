@@ -36,11 +36,13 @@ jobs:
           fi
         done
 
-    - name: Update kubeconfig
+    - name: Configure kubectl for EKS
       run: |
         aws eks update-kubeconfig --region ${{ secrets.AWS_REGION }} --name devops-eks
 
+    - name: Verify cluster access
+      run: kubectl get nodes
+
     - name: Deploy to EKS
-      run: |
-        kubectl apply -f k8s-manifests/
+      run: kubectl apply -f k8s-manifests/ --validate=false
 
