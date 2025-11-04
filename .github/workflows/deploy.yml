@@ -1,0 +1,46 @@
+name: Deploy to Amazon EKS
+
+on:
+  push:
+    branches: [ "main" ]
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v2
+      with:
+        role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+        aws-region: ${{ secrets.AWS_REGION }}
+
+    - name: Login to ECR
+      uses: aws-actions/amazon-ecr-login@v2
+
+    - name: Build and push Docker images
+      run: |
+        ECR="${{ secrets.ECR_REGISTRY }}"
+        for svc in src/* ; do
+          if [ -f "$svc/Dockerfile" ]; then
+            NAME=$(basename $svc)
+            docker build -t $ECR/online-boutique/$NAME:latest $svc
+            docker push $ECR/online-boutique/$NAME:latest
+          fi
+        done
+
+    - name: Update kubeconfig
+      run: |
+        aws eks update-kubeconfig --region ${{ secrets.AWS_REGION }} --name devops-eks
+
+    - name: Deploy to EKS
+      run: |
+        kubectl apply -f k8s-manifests/
+
