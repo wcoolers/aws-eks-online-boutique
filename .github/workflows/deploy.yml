@@ -49,6 +49,11 @@ jobs:
           --region ${{ secrets.AWS_REGION }} \
           --name devops-eks \
           --role-arn ${{ secrets.AWS_ROLE_ARN }}
+    
+    - name: Export AWS vars
+      run: |
+        export AWS_REGION=${{ secrets.AWS_REGION }}
+        export AWS_DEFAULT_REGION=${{ secrets.AWS_REGION }}
 
     - name: Verify cluster access
       run: kubectl get nodes
