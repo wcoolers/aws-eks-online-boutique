@@ -1,2 +1,2 @@
-Based on Google's Online Boutique microservices sample.  
-Extended, containerized, and deployed to AWS EKS with ECR, CI/CD, monitoring and automation.
+This project is based on Google’s Online Boutique microservices demo.
+I extended the application and deployed it on AWS EKS, implemented Docker/ECR builds, GitHub Actions CI/CD, and added monitoring, logging, and production-grade Kubernetes configurations.
